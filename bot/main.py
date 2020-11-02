@@ -11,7 +11,7 @@ with open('apikey.txt', 'r') as apifile:
 bot = commands.Bot(command_prefix=',', activity=discord.Game(name="osu!"))
 a = Timer()
 a.start()
-o = Osuapi()
+o = Osuapi(osuapikey)
 
 @bot.event
 async def on_ready():
@@ -23,12 +23,15 @@ async def on_ready():
 async def on_message(message):
     if message.content.startswith(',osu'):
         try:
-            username, rank = o.profile(" ".join(message.content.split(" ")[1:]), osuapikey)
-            await message.channel.send(f"{username} on rankilla {rank}")
+            username, rank = o.profile(" ".join(message.content.split(" ")[1:]))
+            await message.channel.send(f"{username} on rankilla #{rank}")
         except:
             error = sys.exc_info()[0]
             if error == IndexError:
                 await message.channel.send("Haista homo pyronki")
+            else:
+                await message.channel.send("wtf")
+
         
 
 
